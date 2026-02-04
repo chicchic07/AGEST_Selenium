@@ -5,9 +5,9 @@
     <classes>
       <class name="LoginTest">
         <methods>
-          <include name="afterMethod"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
           <include name="TC01"/>
-          <include name="beforeMethod"/>
         </methods>
       </class> <!-- LoginTest -->
     </classes>
