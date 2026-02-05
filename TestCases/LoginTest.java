@@ -10,13 +10,22 @@ public class LoginTest extends BaseTest {
 	@Test
 	public void TC01() {
 		System.out.println("TC01 - User can log into Railway with valid username and password");
+		
+		System.out.println("Step 1: Navigate to Railway Safe homepage");
         homePage.open();
-        LoginPage loginPage = homePage.gotoLoginPage();
-        HomePage homePageAfterLogin = loginPage.login(Constant.USERNAME, Constant.PASSWORD);
-        String actualMsg = homePageAfterLogin.getWelcomeMessage();
         
+        System.out.println("Step 2: Click on 'Login' tab");
+        LoginPage loginPage = homePage.gotoLoginPage();
+        
+        System.out.println("Step 3: Enter valid username and password, then click 'Login' button");
+        HomePage homePageAfterLogin = loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+        
+        System.out.println("Step 4: Verify welcome message is displayed");
+        String actualMsg = homePageAfterLogin.getWelcomeMessage();
         String expectedMsg = String.format(Constant.WELCOME_MESSAGE_FORMAT, Constant.USERNAME);
         Assert.assertEquals(actualMsg, expectedMsg, "Welcome message is not displayed as expected");
+        
+        System.out.println("TC01 - PASSED");
 		
 		
 //		System.out.println("TC01 - User can log into Railway with valid username and password");

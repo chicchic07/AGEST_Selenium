@@ -54,6 +54,10 @@ public abstract class GeneralPage {
 		this.getTabLogin().click();
 		return new LoginPage();
 	}
+	public RegisterPage gotoRegisterPage() {
+		this.getTabRegister().click();
+		return new RegisterPage();
+	}
 	public HomePage clickFAQ() {
 		this.getTabFAQ().click();
 		return new HomePage();
