@@ -40,14 +40,22 @@ public class LoginTest extends BaseTest {
 	@Test
 	public void TC02() {
 		System.out.println("TC02 - User cannot login with blank 'Username' textbox");
+		
+		System.out.println("Step 1: Navigate to Railway Safe homepage");
         homePage.open();
+        
+        System.out.println("Step 2: Click on 'Login' tab");
         LoginPage loginPage = homePage.gotoLoginPage();
+        
+        System.out.println("Step 3: Login with blank 'Username' textbox");
         loginPage.login("", Constant.PASSWORD);
+        
+        System.out.println("Step 4: Verify error message displayed.");
         String actualMsg = loginPage.getErrorMessage();
         
-        Assert.assertEquals(actualMsg, Constant.LOGIN_ERROR_MESSAGE, 
-            "Error message is not displayed as expected");
+        Assert.assertEquals(actualMsg, Constant.LOGIN_ERROR_MESSAGE, "Error message is not displayed as expected");
 		
+        System.out.println("TC02 - PASSED");
 		
 //		System.out.println("TC02 - User cannot login with blank 'Usernamee' textbox");
 //		HomePage home = new HomePage();
@@ -61,15 +69,22 @@ public class LoginTest extends BaseTest {
 	@Test
 	public void TC03() {
 		System.out.println("TC03 - User cannot log into Railway with invalid password");
+		
+		System.out.println("Step 1: Navigate to Railway Safe homepage");
         homePage.open();
-        LoginPage loginPage = homePage.gotoLoginPage();
-        loginPage.login(Constant.USERNAME, Constant.INVALID_PASSWORD);
-        String actualMsg = loginPage.getErrorMessage();
         
-        Assert.assertEquals(actualMsg, Constant.INVALID_CREDENTIALS_MESSAGE, 
-            "Error message is not displayed as expected");
+        System.out.println("Step 2: Click on 'Login' tab");
+        LoginPage loginPage = homePage.gotoLoginPage();
+        
+        System.out.println("Step 3: Login wth invalid password");
+        loginPage.login(Constant.USERNAME, Constant.INVALID_PASSWORD);
+        
+        System.out.println("Step 4: Verify error message displayed");
+        String actualMsg = loginPage.getErrorMessage(); 
+        Assert.assertEquals(actualMsg, Constant.INVALID_CREDENTIALS_MESSAGE, "Error message is not displayed as expected");
 		
-		
+        System.out.println("TC03 - PASSED");
+        
 //		System.out.println("User cannot log into Railway with invalid password");
 //		HomePage homePage = new HomePage();
 //		homePage.open();
@@ -82,8 +97,14 @@ public class LoginTest extends BaseTest {
 	@Test
 	public void TC04() {
 		System.out.println("TC04 - Login with wrong password many times");
+		
+		System.out.println("Step 1: Navigate to Railway Safe homepage");
         homePage.open();
+        
+        System.out.println("Step 2: Click on 'Login' tab");
         LoginPage loginPage = homePage.gotoLoginPage();
+        
+        System.out.println("Step 3: Login wth invalid password many times");
         loginPage.login(Constant.USERNAME, "wrongPassword123");
         String firstAttemptMsg = loginPage.getErrorMessage();
         Assert.assertEquals(firstAttemptMsg, Constant.INVALID_CREDENTIALS_MESSAGE, 
@@ -94,11 +115,11 @@ public class LoginTest extends BaseTest {
             System.out.println("Login attempt: " + i);
         }
         
-        // Assert - Check warning message after 4 failed attempts
+        System.out.println("Step 4: Verify warning message after 4 failed attempts displayed");
         String warningMsg = loginPage.getErrorMessage();
-        Assert.assertEquals(warningMsg, Constant.LOGIN_ATTEMPTS_WARNING, 
-            "Warning message after 4 failed attempts is not displayed as expected");
+        Assert.assertEquals(warningMsg, Constant.LOGIN_ATTEMPTS_WARNING, "Warning message after 4 failed attempts is not displayed as expected");
 		
+        System.out.println("TC04 - PASSED");
 		
 //		System.out.println("TC04 - Login with wrong password many times");
 //
@@ -137,16 +158,24 @@ public class LoginTest extends BaseTest {
 	@Test
 	public void TC05() {
 		System.out.println("TC05 - User can't login with an account that hasn't been activated");
+		
+		System.out.println("Step 1: Navigate to Railway Safe homepage");
         homePage.open();
+        
+        System.out.println("Step 2: Click on 'Login' tab");
+        LoginPage loginPage = homePage.gotoLoginPage();
+        
+        System.out.println("Step 3: Login with an account that hasn't been activated");
         String inactiveEmail = "inactive@gmail.com";
         String inactivePassword = "123456789";
-        LoginPage loginPage = homePage.gotoLoginPage();
         loginPage.login(inactiveEmail, inactivePassword);
+        
+        System.out.println("Step 4: Verify error message displayed");
         String actualMsg = loginPage.getErrorMessage();
-
         Assert.assertEquals(actualMsg, Constant.INVALID_CREDENTIALS_MESSAGE, 
             "Error message is not displayed as expected for inactive account");
 		
+        System.out.println("TC05 - PASSED");
 		
 //		System.out.println("TC05 - User can't login with an account hasn't been activated");
 //		HomePage homePage = new HomePage();
