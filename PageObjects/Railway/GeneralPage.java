@@ -1,18 +1,19 @@
 package Railway;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
-import Constant.Constant;
-
 public abstract class GeneralPage {
+	protected WebDriver driver;
 	protected WebDriverWait wait;
 	
-	public GeneralPage() {
-		this.wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(Constant.DEFAULT_TIME));
+	public GeneralPage(WebDriver driver) {
+		this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		
 	}
 	//Locators
@@ -20,8 +21,11 @@ public abstract class GeneralPage {
 	private final By tabLogout = By.xpath("//div[@id='menu']//a[@href='/Account/Logout']");
 	private final By tabFAQ = By.xpath("//div[@id='menu']//a[contains(@href, 'FAQ')]");
 	private final By tabRegister = By.xpath("//div[@id='menu']//a[contains(@href, 'Register')]");
-	private final By lblWelcomeMessage = By.xpath("//div[@class='account']/strong");
+	
+	private final By lblWelcomeMessage = By.xpath("//h1[contains(text(), 'Welcome to')]");
 	private final By lblErrorMessage = By.xpath("//p[@class='message error LoginForm']");
+	
+	//Thêm enum để dynamic mấy cái tên của Tab cho dễ (chưa làm)
 		
 	//Elements
 	protected WebElement getTabLogin() {
@@ -52,19 +56,19 @@ public abstract class GeneralPage {
 	}
 	public LoginPage gotoLoginPage() {
 		this.getTabLogin().click();
-		return new LoginPage();
+		return new LoginPage(driver);
 	}
 	public RegisterPage gotoRegisterPage() {
 		this.getTabRegister().click();
-		return new RegisterPage();
+		return new RegisterPage(driver);
 	}
 	public HomePage clickFAQ() {
 		this.getTabFAQ().click();
-		return new HomePage();
+		return new HomePage(driver);
 	}
 	public HomePage logout() {
 		this.getTabLogout().click();
-		return new HomePage();
+		return new HomePage(driver);
 	}
 	
 	//Kiểm tra xem người dùng đã login vào chưa

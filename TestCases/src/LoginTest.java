@@ -1,3 +1,4 @@
+package src;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,8 +25,6 @@ public class LoginTest extends BaseTest {
         String actualMsg = homePageAfterLogin.getWelcomeMessage();
         String expectedMsg = String.format(Constant.WELCOME_MESSAGE_FORMAT, Constant.USERNAME);
         Assert.assertEquals(actualMsg, expectedMsg, "Welcome message is not displayed as expected");
-        
-        System.out.println("TC01 - PASSED");
 		
 		
 //		System.out.println("TC01 - User can log into Railway with valid username and password");
@@ -55,8 +54,6 @@ public class LoginTest extends BaseTest {
         
         Assert.assertEquals(actualMsg, Constant.LOGIN_ERROR_MESSAGE, "Error message is not displayed as expected");
 		
-        System.out.println("TC02 - PASSED");
-		
 //		System.out.println("TC02 - User cannot login with blank 'Usernamee' textbox");
 //		HomePage home = new HomePage();
 //		home.open();
@@ -82,8 +79,6 @@ public class LoginTest extends BaseTest {
         System.out.println("Step 4: Verify error message displayed");
         String actualMsg = loginPage.getErrorMessage(); 
         Assert.assertEquals(actualMsg, Constant.INVALID_CREDENTIALS_MESSAGE, "Error message is not displayed as expected");
-		
-        System.out.println("TC03 - PASSED");
         
 //		System.out.println("User cannot log into Railway with invalid password");
 //		HomePage homePage = new HomePage();

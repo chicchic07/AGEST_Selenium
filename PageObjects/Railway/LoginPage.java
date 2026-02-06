@@ -1,13 +1,14 @@
 package Railway;
 
-//import Constant.Constant;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import Constant.Constant;
 
 public class LoginPage extends GeneralPage{
-	public LoginPage() {
-		super();
+	public LoginPage(WebDriver driver) {
+		super(driver);
 	}
 	
 	//Locators
@@ -27,29 +28,37 @@ public class LoginPage extends GeneralPage{
 	}
 		
 	//Methods
+	public HomePage login(Constant.User user) {
+		enterUsername(user.getUsername());
+		enterPassword(user.getPassword());
+		clickLoginButton();
+		return new HomePage(driver);
+	}
+	
+	// Keep the original method for backward compatibility
 	public HomePage login(String username, String password) {
-		//Submit login credentials
 		enterUsername(username);
 		enterPassword(password);
 		clickLoginButton();
-			
-		//Land on Home Page
-		return new HomePage();	
+		return new HomePage(driver);	
 	}
+	
 	public LoginPage enterUsername(String username) {
 		WebElement usernameField = getTxtUsername();
 		usernameField.clear();
 		usernameField.sendKeys(username);
 		return this;
 	}
+	
 	public LoginPage enterPassword(String password) {
 		WebElement passwordField = getTxtPassword();
 		passwordField.clear();
 		passwordField.sendKeys(password);
 		return this;
 	}
+	
 	public HomePage clickLoginButton() {
         getBtnLogin().click();
-        return new HomePage();
+        return new HomePage(driver);
     }
 }
