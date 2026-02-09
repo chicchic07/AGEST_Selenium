@@ -57,7 +57,7 @@ public class GuerrillaMailPage extends GeneralPage {
             d -> {
                 String newEmail = getEmailViaJS();
                 return newEmail != null && !newEmail.equals(oldEmail);
-            }, 5, "Email thay đổi sau khi uncheck scramble"
+            }, 5, "Email changed after uncheck scramble"
         );
         
         currentEmail = getEmailViaJS();
@@ -113,8 +113,7 @@ public class GuerrillaMailPage extends GeneralPage {
                 System.out.println("  Found email from thanhletraining");
                 
                 // Click email để mở
-                driver.findElement(By.xpath(String.format(emailFromSender.toString()
-                		.replace("By.xpath: ", ""), "thanhletraining"))).click();
+                driver.findElement(By.xpath(String.format(emailFromSender.toString().replace("By.xpath: ", ""), "thanhletraining"))).click();
                 
                 waitForEmailContentLoad();
                 return clickActivationLink();
@@ -198,7 +197,7 @@ public class GuerrillaMailPage extends GeneralPage {
                 return emails.size() > 0;
             },
             timeoutSeconds,
-            "Email từ " + senderName
+            "Email from " + senderName
         );
     }
     
@@ -226,7 +225,7 @@ public class GuerrillaMailPage extends GeneralPage {
             String activationUrl = driver.findElement(activationLinkSafeRailway)
                                          .getAttribute("href");
             
-            System.out.println("✓ Found link: " + activationUrl);
+            System.out.println("  Found link: " + activationUrl);
             driver.navigate().to(activationUrl);
             
             // Chờ trang activation load
@@ -235,11 +234,11 @@ public class GuerrillaMailPage extends GeneralPage {
                 ExpectedConditions.urlContains("Confirm")
             ));
             
-            System.out.println("✓ Activation page loaded");
+            System.out.println("  Activation page loaded");
             return true;
             
         } catch (Exception e) {
-            System.err.println("✗ Cannot find activation link: " + e.getMessage());
+            System.err.println("  Cannot find activation link: " + e.getMessage());
             return false;
         }
     }

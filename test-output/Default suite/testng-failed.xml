@@ -6,8 +6,8 @@
       <class name="src.CreateAccountTest">
         <methods>
           <include name="tearDown"/>
-          <include name="TC07"/>
           <include name="setUp"/>
+          <include name="TC08"/>
         </methods>
       </class> <!-- src.CreateAccountTest -->
     </classes>

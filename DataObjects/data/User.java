@@ -1,29 +1,40 @@
 package data;
-public class User {
+
+class User {
     private String email;
     private String password;
-
-    // Constructor
-    public User(String email, String password) {
+    private String pid;
+    private boolean isActivated;
+    
+    public User(String email, String password, String pid) {
         this.email = email;
         this.password = password;
+        this.pid = pid;
+        this.isActivated = false;
     }
-
-    // Getters
+    
     public String getEmail() {
         return email;
     }
-
+    
     public String getPassword() {
         return password;
     }
-
-    // Setters
-    public void setEmail(String email) {
-        this.email = email;
+    
+    public String getPid() {
+        return pid;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
+    
+    public boolean isActivated() {
+        return isActivated;
+    }
+    
+    public void setActivated(boolean activated) {
+        this.isActivated = activated;
+    }
+    
+    @Override
+    public String toString() {
+        return "AccountData{email='" + email + "', isActivated=" + isActivated + "}";
     }
 }

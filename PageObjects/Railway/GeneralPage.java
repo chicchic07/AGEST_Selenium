@@ -23,7 +23,7 @@ public abstract class GeneralPage {
 	private final By tabRegister = By.xpath("//div[@id='menu']//a[contains(@href, 'Register')]");
 	
 	private final By lblWelcomeMessage = By.xpath("//h1[contains(text(), 'Welcome to')]");
-	private final By lblErrorMessage = By.xpath("//p[@class='message error LoginForm']");
+	private final By lblErrorMessage = By.xpath("//p[contains(@class,'message error')]");
 	
 	//Thêm enum để dynamic mấy cái tên của Tab cho dễ (chưa làm)
 		

@@ -15,6 +15,7 @@ public class LoginPage extends GeneralPage{
 	private final By _txtUsername = By.xpath("//input[@id='username']");
 	private final By _txtPassword = By.xpath("//input[@id='password']");
 	private final By _btnLogin = By.xpath("//input[@value='login']");
+	private final By _linkForgot = By.xpath("//a[contains(@href, 'Forgot')]");
 		
 	//Elements
 	public WebElement getTxtUsername() {
@@ -25,6 +26,9 @@ public class LoginPage extends GeneralPage{
 	}
 	public WebElement getBtnLogin() {
 		return wait.until(ExpectedConditions.elementToBeClickable(_btnLogin));
+	}
+	public WebElement getBtnForgot() {
+		return wait.until(ExpectedConditions.elementToBeClickable(_linkForgot));
 	}
 		
 	//Methods
@@ -61,4 +65,9 @@ public class LoginPage extends GeneralPage{
         getBtnLogin().click();
         return new HomePage(driver);
     }
+	
+	public ForgotPage clickForgotPasswordLink() {
+		getBtnForgot().click();
+		return new ForgotPage(driver);
+	}
 }

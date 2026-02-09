@@ -17,8 +17,9 @@ public class RegisterPage extends GeneralPage {
 	private final By _txtConfirmPass = By.xpath("//input[@id='confirmPassword']");
 	private final By _txtPID = By.xpath("//input[@id='pid']");
 	private final By _btnRegister = By.xpath("//input[@value='Register']");
-	private final By _lblSuccessMessage = By.xpath("//p[contains(text(), 'activate your account')]");
+	private final By _lblSuccessMessage = By.xpath("//h1[contains(text(), 'Thank you')]");
 	private final By lblRegistrationConfirmed = By.xpath("//p[contains(text(), 'Registration Confirmed')]");
+	private final String lblErrorField ="//label[@class='validation-error' and @for='%s']";
 	
 	//Elements
 	public WebElement getTxtUsername() {
@@ -105,6 +106,12 @@ public class RegisterPage extends GeneralPage {
     public String getRegistrationConfirmedMessage() {
 		return getLblRegistrationConfirmed().getText();
 	}
+    
+    public String getErrorField(String fieldFor) {
+        By locator = By.xpath(String.format(lblErrorField, fieldFor));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator))
+                   .getText();
+    }
 	
 	public boolean isRegistrationConfirmed() {
 		try {

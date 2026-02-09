@@ -4,11 +4,12 @@ import org.openqa.selenium.WebDriver;
 
 public class Constant {
 	public static WebDriver WEBDRIVER;
-	public static final String RAILWAY_URL = "http://saferailway.somee.com/Page/HomePage.cshtml";
+	public static final String RAILWAY_URL = "http://www.saferailway.somee.com/Page/HomePage.cshtml";
 	public static final String GUERRILLA_MAIL_URL = "https://www.guerrillamail.com/inbox";
 	
 	public static final String USERNAME = "1202phamnam@gmail.com";
 	public static final String PASSWORD = "11111111";
+	public static final String PID = "123456789";
 	
 	public static final int DEFAULT_TIME = 10;
 	public static final int PAGE_LOAD_TIMEOUT = 30;
