@@ -22,6 +22,7 @@ public class GuerrillaMailPage extends GeneralPage {
     private final By scrambleCheckbox = By.id("use-alias");
     private final By emailFromSender = By.xpath("//td[contains(text(), '%s')]");
     private final By activationLinkSafeRailway = By.xpath("//a[contains(@href, 'saferailway')]");
+    private final By resetPasswordLink = By.xpath("//a[contains(@href, 'ResetPassword') or contains(text(), 'reset') or contains(text(), 'Reset')]");
     
     // ========== CONSTRUCTOR ==========
     public GuerrillaMailPage(WebDriver driver) {
@@ -123,6 +124,31 @@ public class GuerrillaMailPage extends GeneralPage {
         }
         
         System.out.println("  Timeout: No activation email received");
+        return false;
+    }
+    
+    public boolean waitForResetPasswordEmailAndClick(int timeoutSeconds) {
+        System.out.println("Waiting for reset password email (timeout: " + timeoutSeconds + "s)...");
+        
+        long endTime = System.currentTimeMillis() + (timeoutSeconds * 1000);
+        
+        while (System.currentTimeMillis() < endTime) {
+            refreshInbox();
+            
+            if (waitForEmailFromSender("thanhletraining", 3)) {
+                System.out.println("  Found email from thanhletraining");
+                
+                // Click email to open
+                driver.findElement(By.xpath(String.format(emailFromSender.toString().replace("By.xpath: ", ""), "thanhletraining"))).click();
+                
+                waitForEmailContentLoad();
+                return clickResetPasswordLink();
+            }
+            
+            System.out.println("Waiting... (" + getRemainingSeconds(endTime) + "s left)");
+        }
+        
+        System.out.println("  Timeout: No reset password email received");
         return false;
     }
     
@@ -239,6 +265,35 @@ public class GuerrillaMailPage extends GeneralPage {
             
         } catch (Exception e) {
             System.err.println("  Cannot find activation link: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    private boolean clickResetPasswordLink() {
+        System.out.println("Looking for reset password link...");
+        
+        try {
+            // Wait for link to appear
+            wait.until(ExpectedConditions.presenceOfElementLocated(resetPasswordLink));
+            
+            // Get URL and navigate
+            String resetUrl = driver.findElement(resetPasswordLink)
+                                    .getAttribute("href");
+            
+            System.out.println("  Found link: " + resetUrl);
+            driver.navigate().to(resetUrl);
+            
+            // Wait for reset password page to load
+            wait.until(ExpectedConditions.or(
+                ExpectedConditions.urlContains("ResetPassword"),
+                ExpectedConditions.urlContains("Reset")
+            ));
+            
+            System.out.println("  Reset password page loaded");
+            return true;
+            
+        } catch (Exception e) {
+            System.err.println("  Cannot find reset password link: " + e.getMessage());
             return false;
         }
     }

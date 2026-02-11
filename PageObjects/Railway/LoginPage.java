@@ -3,71 +3,59 @@ package Railway;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import Constant.Constant;
 
-public class LoginPage extends GeneralPage{
-	public LoginPage(WebDriver driver) {
-		super(driver);
-	}
-	
-	//Locators
-	private final By _txtUsername = By.xpath("//input[@id='username']");
-	private final By _txtPassword = By.xpath("//input[@id='password']");
-	private final By _btnLogin = By.xpath("//input[@value='login']");
-	private final By _linkForgot = By.xpath("//a[contains(@href, 'Forgot')]");
-		
-	//Elements
-	public WebElement getTxtUsername() {
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(_txtUsername));
-	}
-	public WebElement getTxtPassword() {
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(_txtPassword));
-	}
-	public WebElement getBtnLogin() {
-		return wait.until(ExpectedConditions.elementToBeClickable(_btnLogin));
-	}
-	public WebElement getBtnForgot() {
-		return wait.until(ExpectedConditions.elementToBeClickable(_linkForgot));
-	}
-		
-	//Methods
-	public HomePage login(Constant.User user) {
-		enterUsername(user.getUsername());
-		enterPassword(user.getPassword());
-		clickLoginButton();
-		return new HomePage(driver);
-	}
-	
-	// Keep the original method for backward compatibility
-	public HomePage login(String username, String password) {
-		enterUsername(username);
-		enterPassword(password);
-		clickLoginButton();
-		return new HomePage(driver);	
-	}
-	
-	public LoginPage enterUsername(String username) {
-		WebElement usernameField = getTxtUsername();
-		usernameField.clear();
-		usernameField.sendKeys(username);
-		return this;
-	}
-	
-	public LoginPage enterPassword(String password) {
-		WebElement passwordField = getTxtPassword();
-		passwordField.clear();
-		passwordField.sendKeys(password);
-		return this;
-	}
-	
-	public HomePage clickLoginButton() {
-        getBtnLogin().click();
+public class LoginPage extends GeneralPage {
+    
+    // Locators
+    private static final By TXT_USERNAME = By.xpath("//input[@id='username']");
+    private static final By TXT_PASSWORD = By.xpath("//input[@id='password']");
+    private static final By BTN_LOGIN = By.xpath("//input[@value='login']");
+    private static final By LINK_FORGOT = By.xpath("//a[contains(@href, 'Forgot')]");
+    
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
+    
+    // ========== MAIN ACTIONS ==========
+    
+    public HomePage login(Constant.User user) {
+        return login(user.getUsername(), user.getPassword());
+    }
+    
+    public HomePage login(String username, String password) {
+        enterUsername(username);
+        enterPassword(password);
+        clickLoginButton();
         return new HomePage(driver);
     }
-	
-	public ForgotPage clickForgotPasswordLink() {
-		getBtnForgot().click();
-		return new ForgotPage(driver);
-	}
+    
+    // ========== INPUT METHODS ==========
+    
+    public LoginPage enterUsername(String username) {
+        WebElement field = getElement(TXT_USERNAME);
+        field.clear();
+        field.sendKeys(username);
+        return this;
+    }
+    
+    public LoginPage enterPassword(String password) {
+        WebElement field = getElement(TXT_PASSWORD);
+        field.clear();
+        field.sendKeys(password);
+        return this;
+    }
+    
+    public HomePage clickLoginButton() {
+        getClickableElement(BTN_LOGIN).click();
+        return new HomePage(driver);
+    }
+    
+    // ========== NAVIGATION ==========
+    
+    public ForgotPage clickForgotPasswordLink() {
+        getClickableElement(LINK_FORGOT).click();
+        return new ForgotPage(driver);
+    }
 }

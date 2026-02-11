@@ -3,17 +3,12 @@ import org.openqa.selenium.WindowType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import Common.TestDataManager;
 import Constant.Constant;
-//import DataObjects.data.User;
 import Railway.GuerrillaMailPage;
 import Railway.RegisterPage;
 
 public class CreateAccountTest extends BaseTest {
-	//private static User createdAccount = null;
-	
-	//public static User getCreatedAccount() {
-		//return createdAccount;
-	//}
 	
 	@Test
 	public void TC07() {
@@ -91,7 +86,7 @@ public class CreateAccountTest extends BaseTest {
 	}
 	
 	
-	@Test
+	@Test(priority = 1)
 	public void TC09() throws Exception {
 		System.out.println("TC09 - User create and activate account");
 		System.out.println("============================================================");
@@ -106,6 +101,9 @@ public class CreateAccountTest extends BaseTest {
 		Assert.assertNotNull(tempEmail, "Failed to get temporary email from GuerrillaMail");
 		Assert.assertTrue(tempEmail.contains("@"), "Invalid email format: " + tempEmail);
 		System.out.println("  Temporary email generated: " + tempEmail);
+		
+		// Store data for TC10
+		TestDataManager.setTC09Data(tempEmail, Constant.PASSWORD);
 		
 			// Save the GuerrillaMail window handle
 		String guerrillaMailWindow = mailPage.getCurrentWindowHandle();
@@ -165,30 +163,7 @@ public class CreateAccountTest extends BaseTest {
 		Assert.assertTrue(isConfirmed, "Registration Confirmed message is not displayed");
 		
 		String confirmMessage = confirmPage.getRegistrationConfirmedMessage();
-		
-		//Nào đề kêu cần login bằng account mới tạo thành công thì thêm đoạn này vào
-		
-//		// Step 7: Navigate to Login page and login with newly created account
-//		System.out.println("\nStep 7: Login with newly created account");
-//		
-//		// Navigate to login page
-//		LoginPage loginPage = homePage.gotoLoginPage();
-//		
-//		// Login with new credentials
-//		Constant.User newUser = new Constant.User(tempEmail, Constant.PASSWORD);
-//		System.out.println("Logging in with: " + tempEmail);
-//		loginPage.login(newUser);
-//		
-//		// Verify login successful
-//		String welcomeMsg = homePage.getWelcomeMessage();
-//		String expectedMsg = "Welcome to Safe Railway";
-//		
-//		System.out.println("Welcome message: " + welcomeMsg);
-//		System.out.println("Expected message: " + expectedMsg);
-//		
-//		Assert.assertEquals(welcomeMsg, expectedMsg, 
-//			"Login with newly created account failed");
-//		
-//		System.out.println("  Login successful!");
+		System.out.println("Confirmation message: " + confirmMessage);
+		System.out.println("\nTC09 PASSED - Account created and activated successfully!");
 	}
 }
