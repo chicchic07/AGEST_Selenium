@@ -6,6 +6,9 @@ import org.testng.annotations.Test;
 
 import Common.TestDataManager;
 import Constant.Constant;
+import Constant.DepartDate;
+import Constant.SeatType;
+import Constant.Stations;
 import Railway.BookTicketPage;
 import Railway.HomePage;
 import Railway.LoginPage;
@@ -20,7 +23,6 @@ public class BookTicketTest extends BaseTest {
         System.out.println("============================================================");
 
         // Pre-Condition: An activated account is existing
-        // We will use the existing account from Constant.USERNAME and Constant.PASSWORD
 
         // Step 1: Navigate to QA Railway Website
         System.out.println("\nStep 1: Navigate to QA Railway Website");
@@ -31,32 +33,20 @@ public class BookTicketTest extends BaseTest {
         LoginPage loginPage = homePage.gotoLoginPage();
         loginPage.login(Constant.USERNAME, Constant.PASSWORD);
 
-        // Verify login successful
-        String welcomeMsg = homePage.getWelcomeMessage();
-        System.out.println("  Login successful. Welcome message: " + welcomeMsg);
-        Assert.assertTrue(welcomeMsg.contains("Welcome"), "Login failed - user not logged in");
-
         // Step 3: Click on "Book ticket" tab
         System.out.println("\nStep 3: Click on 'Book ticket' tab");
         BookTicketPage bookTicketPage = homePage.gotoBookTicketPage();
 
         // Step 4: Select the next 2 days from "Depart date"
         System.out.println("\nStep 4: Select the next 2 days from 'Depart date'");
-        bookTicketPage.selectDepartDateByIndex(2);
-
         // Step 5: Select Depart from "Nha Trang" and Arrive at "Huế"
         System.out.println("\nStep 5: Select Depart from 'Nha Trang' and Arrive at 'Huế'");
-        bookTicketPage.selectDepartStation("Nha Trang");
-        bookTicketPage.selectArriveStation("Huế");
-
         // Step 6: Select "Soft bed with air conditioner" for Seat type
         System.out.println("\nStep 6: Select 'Soft bed with air conditioner' for Seat type");
-        bookTicketPage.selectSeatType("Soft bed with air conditioner");
-
         // Step 7: Select "1" for "Ticket amount"
         System.out.println("\nStep 7: Select '1' for 'Ticket amount'");
-        bookTicketPage.selectTicketAmount(1);
-
+        BookTicketPage.bookTicketTwoDaysLater(bookTicketPage, Stations.NHA_TRANG, Stations.HUE, SeatType.SOFT_BED_AC, 1);
+        
         // Step 8: Click on "Book ticket" button
         System.out.println("\nStep 8: Click on 'Book ticket' button");
         bookTicketPage.clickBookTicketButton();
@@ -97,7 +87,7 @@ public class BookTicketTest extends BaseTest {
         System.out.println("TC13 - User can book many tickets at a time");
         System.out.println("============================================================");
 
-        // Step 1-2: Navigate and login
+        // Step 1-2: Navigate and login (12/2/2026 lên cty sửa lại đoạn pr4e-conditon của các case thành register acc mới, ko login acc có sẵn
         System.out.println("\nStep 1-2: Navigate to Railway and Login with a valid account ");
         homePage.open();
         LoginPage loginPage = homePage.gotoLoginPage();
@@ -109,20 +99,13 @@ public class BookTicketTest extends BaseTest {
 
         // Step 4: Select the next 25 days from "Depart date"
         System.out.println("\nStep 4: Select the next 2 days from 'Depart date'");
-        bookTicketPage.selectDepartDateByIndex(25);
-
         // Step 5: Select Depart from "Nha Trang" and Arrive at "Sài Gòn"
         System.out.println("\nStep 5: Select Depart from 'Nha Trang' and Arrive at 'Sài Gòn'");
-        bookTicketPage.selectDepartStation("Nha Trang");
-        bookTicketPage.selectArriveStation("Sài Gòn");
-
         // Step 6: Select "Soft bed with air conditioner" for Seat type
         System.out.println("\nStep 6: Select 'Soft bed with air conditioner' for Seat type");
-        bookTicketPage.selectSeatType("Soft bed with air conditioner");
-
         // Step 7: Select "5" for "Ticket amount"
         System.out.println("\nStep 7: Select '5' for 'Ticket amount'");
-        bookTicketPage.selectTicketAmount(5);
+        BookTicketPage.bookTicket25DaysLater(bookTicketPage, Stations.NHA_TRANG, Stations.SAI_GON, SeatType.SOFT_BED_AC, 5);
 
         // Step 8: Click on "Book ticket" button
         System.out.println("\nStep 8: Click on 'Book ticket' button");

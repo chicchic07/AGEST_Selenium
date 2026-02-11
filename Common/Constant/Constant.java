@@ -36,20 +36,78 @@ public class Constant {
     // ========== LOGIN SETTINGS ==========
     public static final int MAX_LOGIN_ATTEMPTS = 4;
     
-    // ========== STATIONS ==========
+    // ========== STATIONS (Deprecated - Use Station enum instead) ==========
+    /**
+     * @deprecated Use {@link Station#SAI_GON} instead
+     */
+    @Deprecated
     public static final String STATION_SAIGON = "Sài Gòn";
+    
+    /**
+     * @deprecated Use {@link Station#PHAN_THIET} instead
+     */
+    @Deprecated
     public static final String STATION_PHAN_THIET = "Phan Thiết";
+    
+    /**
+     * @deprecated Use {@link Station#NHA_TRANG} instead
+     */
+    @Deprecated
     public static final String STATION_NHA_TRANG = "Nha Trang";
+    
+    /**
+     * @deprecated Use {@link Station#HUE} instead
+     */
+    @Deprecated
     public static final String STATION_HUE = "Huế";
+    
+    /**
+     * @deprecated Use {@link Station#DA_NANG} instead
+     */
+    @Deprecated
     public static final String STATION_DA_NANG = "Đà Nẵng";
+    
+    /**
+     * @deprecated Use {@link Station#QUANG_NGAI} instead
+     */
+    @Deprecated
     public static final String STATION_QUANG_NGAI = "Quảng Ngãi";
     
-    // ========== SEAT TYPES ==========
+    // ========== SEAT TYPES (Deprecated - Use SeatType enum instead) ==========
+    /**
+     * @deprecated Use {@link SeatType#HARD_SEAT} instead
+     */
+    @Deprecated
     public static final String SEAT_TYPE_HARD_SEAT = "Hard seat";
+    
+    /**
+     * @deprecated Use {@link SeatType#SOFT_SEAT} instead
+     */
+    @Deprecated
     public static final String SEAT_TYPE_SOFT_SEAT = "Soft seat";
+    
+    /**
+     * @deprecated Use {@link SeatType#SOFT_BED} instead
+     */
+    @Deprecated
     public static final String SEAT_TYPE_SOFT_BED = "Soft bed";
+    
+    /**
+     * @deprecated Use {@link SeatType#HARD_BED} instead
+     */
+    @Deprecated
     public static final String SEAT_TYPE_HARD_BED = "Hard bed";
+    
+    /**
+     * @deprecated Use {@link SeatType#SOFT_BED_AC} instead
+     */
+    @Deprecated
     public static final String SEAT_TYPE_SOFT_BED_AC = "Soft bed with air conditioner";
+    
+    /**
+     * @deprecated Use {@link SeatType#HARD_BED_AC} instead (Note: This constant was unused)
+     */
+    @Deprecated
     public static final String SEAT_TYPE_HARD_BED_AC = "Hard bed with air conditioner";
     
     // ========== PRE-CONFIGURED USERS ==========
@@ -117,7 +175,9 @@ public class Constant {
     
     /**
      * Booking data class
+     * @deprecated Consider using individual parameters with Station and SeatType enums instead
      */
+    @Deprecated
     public static class BookingData {
         private final String date;
         private final String departStation;
