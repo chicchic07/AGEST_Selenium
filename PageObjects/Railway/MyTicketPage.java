@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -15,18 +16,17 @@ public class MyTicketPage extends GeneralPage {
         super(driver);
     }
 
-    // Locators
-    private final By tableRows = By.xpath("//table[@class='MyTable']//tr[@class='OddRow' or @class='EvenRow']");
-    private final By noTicketMessage = By.xpath("//h1[contains(text(), 'No ticket')] | //p[contains(text(), 'no ticket')]");
-    
-    private String cancelButtonByRoute = "//td[text()='%s']/following-sibling::td[text()='%s']/following-sibling::td//input[@value='Cancel']";
-    
-    private final By firstCancelButton = By.xpath("(//input[@value='Cancel'])[1]");
+    // ========== LOCATORS - Consistent naming ==========
+    private static final By TBL_ROWS = By.xpath("//table[@class='MyTable']//tr[@class='OddRow' or @class='EvenRow']");
+    private static final By LBL_NO_TICKET = By.xpath("//h1[contains(text(), 'No ticket')] | //p[contains(text(), 'no ticket')]");
+    private static final String BTN_CANCEL_BY_ROUTE = "//td[text()='%s']/following-sibling::td[text()='%s']/following-sibling::td//input[@value='Cancel']";
+    private static final By BTN_FIRST_CANCEL = By.xpath("(//input[@value='Cancel'])[1]");
 
-    // Elements
+    // ========== ELEMENT GETTERS ==========
+    
     public List<WebElement> getTableRows() {
         try {
-            return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(tableRows));
+            return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(TBL_ROWS));
         } catch (Exception e) {
             // No tickets found
             return List.of();
@@ -34,14 +34,15 @@ public class MyTicketPage extends GeneralPage {
     }
 
     public WebElement getNoTicketMessage() {
-        return wait.until(ExpectedConditions.presenceOfElementLocated(noTicketMessage));
+        return wait.until(ExpectedConditions.presenceOfElementLocated(LBL_NO_TICKET));
     }
 
     public WebElement getFirstCancelButton() {
-        return wait.until(ExpectedConditions.elementToBeClickable(firstCancelButton));
+        return wait.until(ExpectedConditions.elementToBeClickable(BTN_FIRST_CANCEL));
     }
 
-    // Methods
+    // ========== VERIFICATION METHODS ==========
+    
     public boolean hasTickets() {
         try {
             List<WebElement> rows = getTableRows();
@@ -63,24 +64,20 @@ public class MyTicketPage extends GeneralPage {
         return getTableRows().size();
     }
 
+    // ========== CANCEL METHODS ==========
+    
     public void clickCancelByRoute(String departStation, String arriveStation) {
         System.out.println("  Looking for ticket: " + departStation + " → " + arriveStation);
         
-        By cancelButton = By.xpath(String.format(cancelButtonByRoute, departStation, arriveStation));
+        By cancelButton = By.xpath(String.format(BTN_CANCEL_BY_ROUTE, departStation, arriveStation));
         
         try {
             WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(cancelButton));
             
-            // Scroll to the button
+            // Scroll to the button then wait until it's fully visible
             ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", btn);
-            
-            // Wait a bit for scroll
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait.until(ExpectedConditions.elementToBeClickable(cancelButton));
             
             System.out.println("  Clicking 'Cancel' button...");
             btn.click();
@@ -96,16 +93,10 @@ public class MyTicketPage extends GeneralPage {
         
         WebElement btn = getFirstCancelButton();
         
-        // Scroll to the button
+        // Scroll to the button then wait until it's fully clickable
         ((JavascriptExecutor) driver).executeScript(
             "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", btn);
-        
-        // Wait a bit for scroll
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(BTN_FIRST_CANCEL));
         
         btn.click();
     }
@@ -113,32 +104,61 @@ public class MyTicketPage extends GeneralPage {
     public boolean confirmCancellation() {
         try {
             System.out.println("  Waiting for confirmation alert...");
-            
-            // Wait for alert to appear
+
             Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-            
-            // Get alert text for logging
             String alertText = alert.getText();
             System.out.println("  Alert message: " + alertText);
-            
-            // Click OK to confirm
+
+            // Lấy reference của row đầu tiên trước khi accept, dùng để wait staleness
+            List<WebElement> rowsBefore = driver.findElements(TBL_ROWS);
+            WebElement firstRowRef = rowsBefore.isEmpty() ? null : rowsBefore.get(0);
+
             System.out.println("  Clicking 'OK' on confirmation alert...");
             alert.accept();
-            
-            // Wait a bit for the page to refresh
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+            // Chờ page cập nhật sau khi cancel:
+            // - Nếu có row trước đó → chờ row đó stale (DOM đã refresh)
+            // - Nếu không có row → chờ no-ticket message xuất hiện
+            if (firstRowRef != null) {
+                wait.until(ExpectedConditions.or(
+                    ExpectedConditions.stalenessOf(firstRowRef),
+                    ExpectedConditions.presenceOfElementLocated(LBL_NO_TICKET)
+                ));
+            } else {
+                wait.until(ExpectedConditions.presenceOfElementLocated(LBL_NO_TICKET));
             }
-            
+
             System.out.println("  ✓ Confirmation accepted");
             return true;
-            
+
         } catch (Exception e) {
             System.err.println("  ERROR: Could not handle confirmation alert: " + e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * Vào My Ticket page: verify có vé, in danh sách, trả về số vé ban đầu.
+     * Dùng trong TC trước khi cancel để lấy initialTicketCount.
+     */
+    public int getInitialTicketCount() {
+        Assert.assertTrue(hasTickets(), "No tickets found on My Ticket page");
+        System.out.println("   My Ticket page loaded");
+        printAllTickets();
+        int count = getTicketCount();
+        System.out.println("  Initial ticket count: " + count);
+        return count;
+    }
+
+    // ========== COMBINED METHODS ==========
+    public boolean waitForCancellationComplete(String departStation, String arriveStation, int initialCount) {
+        int finalCount = getTicketCount();
+
+        boolean ticketCountDecreased = finalCount < initialCount;
+        boolean ticketRemoved = isTicketCanceled(departStation, arriveStation);
+        boolean noTicketMsg = finalCount == 0 && isNoTicketMessageDisplayed();
+
+        return ticketCountDecreased || ticketRemoved || noTicketMsg;
     }
 
     public void cancelTicket(String departStation, String arriveStation) {
@@ -192,6 +212,8 @@ public class MyTicketPage extends GeneralPage {
         }
     }
 
+    // ========== HELPER METHODS ==========
+    
     public void printAllTickets() {
         System.out.println("  Current tickets in My Ticket:");
         

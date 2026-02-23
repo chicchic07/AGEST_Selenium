@@ -5,12 +5,12 @@ import java.util.Random;
 import java.util.UUID;
 
 public class Utilities {
-	// Get project root path
-	public static String getProjectPath() {
-	        return Paths.get("").toAbsolutePath().toString();
+    // Get project root path
+    public static String getProjectPath() {
+        return Paths.get("").toAbsolutePath().toString();
     }
-	
-	// Generate random string
+    
+    // Generate random string
     public static String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         StringBuilder result = new StringBuilder();

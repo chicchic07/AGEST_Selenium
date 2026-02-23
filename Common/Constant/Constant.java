@@ -1,13 +1,6 @@
 package Constant;
 
-import org.openqa.selenium.WebDriver;
-
-/**
- * Central configuration class for test constants
- */
 public class Constant {
-    // WebDriver instance
-    public static WebDriver WEBDRIVER;
     
     // ========== URLs ==========
     public static final String RAILWAY_URL = "http://www.saferailway.somee.com/Page/HomePage.cshtml";
@@ -36,97 +29,13 @@ public class Constant {
     // ========== LOGIN SETTINGS ==========
     public static final int MAX_LOGIN_ATTEMPTS = 4;
     
-    // ========== STATIONS (Deprecated - Use Station enum instead) ==========
-    /**
-     * @deprecated Use {@link Station#SAI_GON} instead
-     */
-    @Deprecated
-    public static final String STATION_SAIGON = "Sài Gòn";
-    
-    /**
-     * @deprecated Use {@link Station#PHAN_THIET} instead
-     */
-    @Deprecated
-    public static final String STATION_PHAN_THIET = "Phan Thiết";
-    
-    /**
-     * @deprecated Use {@link Station#NHA_TRANG} instead
-     */
-    @Deprecated
-    public static final String STATION_NHA_TRANG = "Nha Trang";
-    
-    /**
-     * @deprecated Use {@link Station#HUE} instead
-     */
-    @Deprecated
-    public static final String STATION_HUE = "Huế";
-    
-    /**
-     * @deprecated Use {@link Station#DA_NANG} instead
-     */
-    @Deprecated
-    public static final String STATION_DA_NANG = "Đà Nẵng";
-    
-    /**
-     * @deprecated Use {@link Station#QUANG_NGAI} instead
-     */
-    @Deprecated
-    public static final String STATION_QUANG_NGAI = "Quảng Ngãi";
-    
-    // ========== SEAT TYPES (Deprecated - Use SeatType enum instead) ==========
-    /**
-     * @deprecated Use {@link SeatType#HARD_SEAT} instead
-     */
-    @Deprecated
-    public static final String SEAT_TYPE_HARD_SEAT = "Hard seat";
-    
-    /**
-     * @deprecated Use {@link SeatType#SOFT_SEAT} instead
-     */
-    @Deprecated
-    public static final String SEAT_TYPE_SOFT_SEAT = "Soft seat";
-    
-    /**
-     * @deprecated Use {@link SeatType#SOFT_BED} instead
-     */
-    @Deprecated
-    public static final String SEAT_TYPE_SOFT_BED = "Soft bed";
-    
-    /**
-     * @deprecated Use {@link SeatType#HARD_BED} instead
-     */
-    @Deprecated
-    public static final String SEAT_TYPE_HARD_BED = "Hard bed";
-    
-    /**
-     * @deprecated Use {@link SeatType#SOFT_BED_AC} instead
-     */
-    @Deprecated
-    public static final String SEAT_TYPE_SOFT_BED_AC = "Soft bed with air conditioner";
-    
-    /**
-     * @deprecated Use {@link SeatType#HARD_BED_AC} instead (Note: This constant was unused)
-     */
-    @Deprecated
-    public static final String SEAT_TYPE_HARD_BED_AC = "Hard bed with air conditioner";
-    
-    // ========== PRE-CONFIGURED USERS ==========
-    public static final User VALID_USER = new User(USERNAME, PASSWORD);
-    public static final User BLANK_USERNAME_USER = new User("", PASSWORD);
-    public static final User INVALID_PASSWORD_USER = new User(USERNAME, INVALID_PASSWORD);
-    public static final User WRONG_PASSWORD_USER = new User(USERNAME, "wrongPassword123");
-    public static final User INACTIVE_USER = new User("inactive@gmail.com", "123456789");
-    
     // ========== DATA CLASSES ==========
     
-    /**
-     * User credentials data class
-     */
     public static class User {
-        private final String username;
-        private final String password;
+        private String username = "";
+        private String password = "";
         
-        public User(String username, String password) {
+        public User() {
             this.username = username;
             this.password = password;
         }
@@ -140,9 +49,6 @@ public class Constant {
         }
     }
     
-    /**
-     * Registration data class
-     */
     public static class RegistrationData {
         private final String email;
         private final String password;
@@ -170,48 +76,6 @@ public class Constant {
         
         public String getPid() {
             return pid;
-        }
-    }
-    
-    /**
-     * Booking data class
-     * @deprecated Consider using individual parameters with Station and SeatType enums instead
-     */
-    @Deprecated
-    public static class BookingData {
-        private final String date;
-        private final String departStation;
-        private final String arriveStation;
-        private final String seatType;
-        private final String amount;
-        
-        public BookingData(String date, String departStation, String arriveStation, 
-                          String seatType, String amount) {
-            this.date = date;
-            this.departStation = departStation;
-            this.arriveStation = arriveStation;
-            this.seatType = seatType;
-            this.amount = amount;
-        }
-        
-        public String getDate() {
-            return date;
-        }
-        
-        public String getDepartStation() {
-            return departStation;
-        }
-        
-        public String getArriveStation() {
-            return arriveStation;
-        }
-        
-        public String getSeatType() {
-            return seatType;
-        }
-        
-        public String getAmount() {
-            return amount;
         }
     }
 }

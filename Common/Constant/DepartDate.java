@@ -1,9 +1,5 @@
 package Constant;
 
-/**
- * Helper class for booking dates
- * Provides meaningful constants instead of magic numbers for date selection
- */
 public class DepartDate {
     
     public static final int FIRST_AVAILABLE = 0;

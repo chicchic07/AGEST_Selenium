@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 public class ForgotPage extends GeneralPage {
     
-    // Locators
+    // ========== LOCATORS - Consistent naming ==========
     private static final By TXT_EMAIL = By.xpath("//input[@id='email']");
     private static final By BTN_SEND_INSTRUCTIONS = By.xpath("//input[@value='Send Instructions']");
     private static final By LBL_SUCCESS_MESSAGE = By.xpath("//p[@class='message success']");
@@ -16,7 +16,8 @@ public class ForgotPage extends GeneralPage {
         super(driver);
     }
     
-    // ========== MAIN ACTIONS =========
+    // ========== MAIN ACTIONS ==========
+    
     public ForgotPage sendResetInstructions(String email) {
         enterEmail(email);
         clickSendInstructions();

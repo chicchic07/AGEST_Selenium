@@ -10,10 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
 import Constant.Stations;
 import Constant.DepartDate;
@@ -25,45 +22,45 @@ public class BookTicketPage extends GeneralPage {
         super(driver);
     }
 
-    // Locators
-    private final By selectDate = By.name("Date");
-    private final By selectDepartFrom = By.name("DepartStation");
-    private final By selectArriveAt = By.name("ArriveStation");
-    private final By selectSeatType = By.name("SeatType");
-    private final By selectTicketAmount = By.name("TicketAmount");
-    private final By btnBookTicket = By.xpath("//input[@type='submit' and @value='Book ticket']");
-    private final By lblSuccessTitle = By.xpath("//h1[text()='Ticket booked successfully!']");
+    // ========== LOCATORS - Consistent naming ==========
+    private static final By DDL_DATE = By.name("Date");
+    private static final By DDL_DEPART_FROM = By.name("DepartStation");
+    private static final By DDL_ARRIVE_AT = By.name("ArriveStation");
+    private static final By DDL_SEAT_TYPE = By.name("SeatType");
+    private static final By DDL_TICKET_AMOUNT = By.name("TicketAmount");
+    private static final By BTN_BOOK_TICKET = By.xpath("//input[@type='submit' and @value='Book ticket']");
+    private static final By LBL_SUCCESS_TITLE = By.xpath("//h1[text()='Ticket booked successfully!']");
+    private static final By TBL_BOOKED_ROW = By.xpath("//table[@class='MyTable WideTable']//tr[@class='OddRow']");
     
-    private final By bookedRow = By.xpath("//table[@class='MyTable WideTable']//tr[@class='OddRow']");
-
+    // Helper method for cell locators
+    private By cellByIndex(int index) {
+        return By.xpath("(//table[@class='MyTable WideTable']//tr[@class='OddRow']/td)[" + index + "]");
+    }
     
-    // Elements
+    // ========== ELEMENT GETTERS ==========
+    
     public WebElement getSelectDate() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(selectDate));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(DDL_DATE));
     }
 
     public WebElement getSelectDepartFrom() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(selectDepartFrom));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(DDL_DEPART_FROM));
     }
 
     public WebElement getSelectArriveAt() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(selectArriveAt));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(DDL_ARRIVE_AT));
     }
 
     public WebElement getSelectSeatType() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(selectSeatType));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(DDL_SEAT_TYPE));
     }
 
     public WebElement getSelectTicketAmount() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(selectTicketAmount));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(DDL_TICKET_AMOUNT));
     }
 
     public WebElement getBtnBookTicket() {
-        return wait.until(ExpectedConditions.elementToBeClickable(btnBookTicket));
-    }
-
-    private By cellByIndex(int index) {
-        return By.xpath("(//table[@class='MyTable WideTable']//tr[@class='OddRow']/td)[" + index + "]");
+        return wait.until(ExpectedConditions.elementToBeClickable(BTN_BOOK_TICKET));
     }
 
     // ========== METHODS WITH ENUM SUPPORT ==========
@@ -94,7 +91,7 @@ public class BookTicketPage extends GeneralPage {
             // Element might already be stale, continue
         }
         
-        wait.until(ExpectedConditions.elementToBeClickable(selectArriveAt));
+        wait.until(ExpectedConditions.elementToBeClickable(DDL_ARRIVE_AT));
         
         wait.until(driver -> {
             try {
@@ -147,7 +144,7 @@ public class BookTicketPage extends GeneralPage {
     // ========== BACKWARD COMPATIBLE STRING METHODS ==========
     
     /**
-     * @deprecated Use {@link #selectDepartStation(Station)} instead
+     * @deprecated Use {@link #selectDepartStation(Stations)} instead
      */
     @Deprecated
     public BookTicketPage selectDepartStation(String station) {
@@ -158,7 +155,7 @@ public class BookTicketPage extends GeneralPage {
     }
 
     /**
-     * @deprecated Use {@link #selectArriveStation(Station)} instead
+     * @deprecated Use {@link #selectArriveStation(Stations)} instead
      */
     @Deprecated
     public BookTicketPage selectArriveStation(String station) {
@@ -168,7 +165,7 @@ public class BookTicketPage extends GeneralPage {
         } catch (Exception e) {
         }
         
-        wait.until(ExpectedConditions.elementToBeClickable(selectArriveAt));
+        wait.until(ExpectedConditions.elementToBeClickable(DDL_ARRIVE_AT));
         
         wait.until(driver -> {
             try {
@@ -217,8 +214,10 @@ public class BookTicketPage extends GeneralPage {
         return this;
     }
 
-    // ========== DATE SELECTION METHODS ==========
-    
+    /**
+     * @deprecated Use {@link #selectDepartDateByIndex(int)} instead
+     */
+    @Deprecated
     public BookTicketPage selectDepartDate(String date) {
         Select dateDropdown = new Select(getSelectDate());
         dateDropdown.selectByVisibleText(date);
@@ -226,12 +225,6 @@ public class BookTicketPage extends GeneralPage {
         return this;
     }
 
-    /**
-     * Select date by index based on the first available date in the dropdown
-     * Use DepartDate constants instead of magic numbers
-     * @param daysFromFirstAvailable Number of days to add to the first available date
-     * @return BookTicketPage
-     */
     public BookTicketPage selectDepartDateByIndex(int daysFromFirstAvailable) {
         Select dateDropdown = new Select(getSelectDate());
         List<WebElement> availableOptions = dateDropdown.getOptions();
@@ -319,6 +312,7 @@ public class BookTicketPage extends GeneralPage {
     }
 
     // ========== COMPLETE BOOKING METHODS WITH ENUM SUPPORT ==========
+    
     public BookTicketPage bookTicket(int daysFromFirstAvailable, Stations departStation, 
                                      Stations arriveStation, SeatType seatType, int amount) {
         selectDepartDateByIndex(daysFromFirstAvailable);
@@ -358,7 +352,7 @@ public class BookTicketPage extends GeneralPage {
     
     public boolean isTicketBookedSuccessfully() {
         return wait.until(ExpectedConditions
-                .visibilityOfElementLocated(lblSuccessTitle))
+                .visibilityOfElementLocated(LBL_SUCCESS_TITLE))
                 .isDisplayed();
     }
 
@@ -382,36 +376,37 @@ public class BookTicketPage extends GeneralPage {
         return driver.findElement(cellByIndex(7)).getText();
     }
     
-    // ========== BOOKING METHODS ==========
+    // ========== BOOKING HELPER METHODS ==========
+    
     public static BookTicketPage bookTicket(BookTicketPage bookTicketPage, int daysFromFirstAvailable,
             Stations departStation, Stations arriveStation, SeatType seatType, int amount) {
 
-    	System.out.println("  Booking ticket:");
-    	System.out.println("    Route: " + departStation.getDisplayName() + " → " + arriveStation.getDisplayName());
-    	System.out.println("    Seat: " + seatType.getDisplayName());
-    	System.out.println("    Amount: " + amount);
-    	System.out.println("    Days from first available: " + daysFromFirstAvailable);
+        System.out.println("  Booking ticket:");
+        System.out.println("    Route: " + departStation.getDisplayName() + " → " + arriveStation.getDisplayName());
+        System.out.println("    Seat: " + seatType.getDisplayName());
+        System.out.println("    Amount: " + amount);
+        System.out.println("    Days from first available: " + daysFromFirstAvailable);
 
-    	return bookTicketPage.bookTicket(daysFromFirstAvailable, departStation, arriveStation, seatType, amount);
+        return bookTicketPage.bookTicket(daysFromFirstAvailable, departStation, arriveStation, seatType, amount);
     }
 
     public static BookTicketPage bookSimpleTicket(BookTicketPage bookTicketPage, Stations departStation, Stations arriveStation) {
-    	return bookTicket(bookTicketPage, DepartDate.FIRST_AVAILABLE, departStation, arriveStation, SeatType.HARD_SEAT, 1);
+        return bookTicket(bookTicketPage, DepartDate.FIRST_AVAILABLE, departStation, arriveStation, SeatType.HARD_SEAT, 1);
     }
 
     public static BookTicketPage bookTicketForTomorrow(BookTicketPage bookTicketPage, Stations departStation,
                        Stations arriveStation, SeatType seatType, int amount) {
-    	return bookTicket(bookTicketPage, DepartDate.TOMORROW, departStation, arriveStation, seatType, amount);
+        return bookTicket(bookTicketPage, DepartDate.TOMORROW, departStation, arriveStation, seatType, amount);
     }
     
     public static BookTicketPage bookTicketTwoDaysLater(BookTicketPage bookTicketPage,
             Stations departStation, Stations arriveStation, SeatType seatType, int amount) {
-    	return bookTicket(bookTicketPage, DepartDate.DAY_AFTER_TOMORROW, departStation, arriveStation, seatType, amount);
+        return bookTicket(bookTicketPage, DepartDate.DAY_AFTER_TOMORROW, departStation, arriveStation, seatType, amount);
     }
     
     public static BookTicketPage bookTicket25DaysLater(BookTicketPage bookTicketPage, Stations departStation,
             Stations arriveStation, SeatType seatType, int amount) {
-    	return bookTicket(bookTicketPage, DepartDate.TWENTYFIVE_DAYS_LATER, departStation, arriveStation, seatType, amount);
+        return bookTicket(bookTicketPage, DepartDate.TWENTYFIVE_DAYS_LATER, departStation, arriveStation, seatType, amount);
     }
 
     // ========== HELPER METHODS ==========

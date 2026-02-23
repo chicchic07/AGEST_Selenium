@@ -1,29 +1,21 @@
 package Constant;
 
-import org.openqa.selenium.By;
-
 public enum NavigationTab {
-    LOGIN("Login", "//div[@id='menu']//a[@href='/Account/Login.cshtml']"),
-    LOGOUT("Logout", "//div[@id='menu']//a[@href='/Account/Logout']"),
-    REGISTER("Register", "//div[@id='menu']//a[contains(@href, 'Register')]"),
-    BOOK_TICKET("Book ticket", "//div[@id='menu']//a[contains(@href, 'Book')]"),
-    FAQ("FAQ", "//div[@id='menu']//a[contains(@href, 'FAQ')]"),
-    TIMETABLE("Timetable", "//div[@id='menu']//a[contains(@href, 'Time')]"),
-    MY_TICKET("My ticket", "//div[@id='menu']//a[contains(@href, 'Manage')]");
+    LOGIN("Login"),
+    LOGOUT("Logout"),
+    REGISTER("Register"),
+    BOOK_TICKET("Book ticket"),
+    FAQ("FAQ"),
+    TIMETABLE("Timetable"),
+    MY_TICKET("My ticket");
     
     private final String tabName;
-    private final String xpath;
     
-    NavigationTab(String tabName, String xpath) {
+    NavigationTab(String tabName) {
         this.tabName = tabName;
-        this.xpath = xpath;
     }
     
     public String getTabName() {
         return tabName;
-    }
-    
-    public By getLocator() {
-        return By.xpath(xpath);
     }
 }

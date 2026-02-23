@@ -12,31 +12,32 @@ public class TimeTablePage extends GeneralPage {
         super(driver);
     }
 
-    // Locators
-    private final By pageTitle = By.xpath("//h1[contains(text(), 'Ticket Price')]");
-    private final By routeInfo = By.xpath("//tr[contains(@class, 'TableSmallHeader')]");
-    
-    private final By tableRows = By.xpath("//table[@class='MyTable WideTable']//tr[@class='OddRow' or @class='EvenRow']");
-    private final By priceTable = By.xpath("//table[@class='MyTable WideTable']");
+    // ========== LOCATORS - Consistent naming ==========
+    private static final By LBL_PAGE_TITLE = By.xpath("//h1[contains(text(), 'Ticket Price')]");
+    private static final By LBL_ROUTE_INFO = By.xpath("//tr[contains(@class, 'TableSmallHeader')]");
+    private static final By TBL_ROWS = By.xpath("//table[@class='MyTable WideTable']//tr[@class='OddRow' or @class='EvenRow']");
+    private static final By TBL_PRICE = By.xpath("//table[@class='MyTable WideTable']");
 
-    // Elements
+    // ========== ELEMENT GETTERS ==========
+    
     public WebElement getPageTitle() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(pageTitle));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(LBL_PAGE_TITLE));
     }
     
     public WebElement getRouteInfo() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(routeInfo));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(LBL_ROUTE_INFO));
     }
 
     public WebElement getPriceTable() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(priceTable));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(TBL_PRICE));
     }
     
     public List<WebElement> getTableRows() {
-        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(tableRows));
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(TBL_ROWS));
     }
 
-    // Methods
+    // ========== NAVIGATION METHODS ==========
+    
     public BookTicketPage clickBookTicket(String fromStation, String toStation) {
         System.out.println("  Looking for route: " + fromStation + " → " + toStation);
         
@@ -153,7 +154,7 @@ public class TimeTablePage extends GeneralPage {
                         found = true;
                         
                         // Wait for price page to load
-                        wait.until(ExpectedConditions.visibilityOfElementLocated(pageTitle));
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(LBL_PAGE_TITLE));
                         System.out.println("      Price page loaded");
                         break;
                     }
@@ -172,6 +173,8 @@ public class TimeTablePage extends GeneralPage {
         return this;
     }
 
+    // ========== VERIFICATION METHODS ==========
+    
     public boolean isTicketPricePageLoaded() {
         try {
             return getPageTitle().isDisplayed();
@@ -205,6 +208,8 @@ public class TimeTablePage extends GeneralPage {
         return contains1 || contains2 || contains3;
     }
 
+    // ========== PRICE RETRIEVAL METHODS ==========
+    
     public String getSeatTypePrice(String seatType) {
         // Map full seat type names to abbreviations in the table
         String abbreviation;
@@ -298,10 +303,10 @@ public class TimeTablePage extends GeneralPage {
             
             if (!hsMatch) System.out.println("     Hard seat price mismatch!");
             if (!ssMatch) System.out.println("     Soft seat price mismatch!");
-            if (!sscMatch) System.out.println("    	Soft seat with AC price mismatch!");
+            if (!sscMatch) System.out.println("     Soft seat with AC price mismatch!");
             if (!hbMatch) System.out.println("     Hard bed price mismatch!");
             if (!sbMatch) System.out.println("     Soft bed price mismatch!");
-            if (!sbcMatch) System.out.println("   	 Soft bed with AC price mismatch!");
+            if (!sbcMatch) System.out.println("     Soft bed with AC price mismatch!");
 
             return hsMatch && ssMatch && sscMatch && hbMatch && sbMatch && sbcMatch;
         } catch (Exception e) {

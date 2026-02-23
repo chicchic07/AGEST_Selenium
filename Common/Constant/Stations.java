@@ -1,15 +1,16 @@
 package Constant;
 
 public enum Stations {
-	SAI_GON("//option[text()='Sài Gòn']"),
-    PHAN_THIET("//option[text()='Phan Thiết']"),
-    NHA_TRANG("//option[text()='Nha Trang']"),
-    HUE("//option[text()='Huế']"),
-    DA_NANG("//option[text()='Đà Nẵng']"),
-    QUANG_NGAI("//option[text()='Quảng Ngãi']");
+    SAI_GON("Sài Gòn"),
+    PHAN_THIET("Phan Thiết"),
+    NHA_TRANG("Nha Trang"),
+    HUE("Huế"),
+    DA_NANG("Đà Nẵng"),
+    QUANG_NGAI("Quảng Ngãi");
     
-	private final String displayName;
-	Stations(String displayName) {
+    private final String displayName;
+    
+    Stations(String displayName) {
         this.displayName = displayName;
     }
     

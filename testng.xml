@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>Agest_Selenium</groupId>
-	<artifactId>CamTien</artifactId>
-	<version>1.0-SNAPSHOT</version>
-
-	<properties>
-		<!-- Java -->
-		<java.version>25</java.version>
-		
-		<!-- Maven -->
-		<maven.compiler.source>25</maven.compiler.source>
-    	<maven.compiler.target>25</maven.compiler.target>
-	</properties>
-
-
-	<dependencies>
-
-		<!-- Source:
-		https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>4.40.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Source: https://mvnrepository.com/artifact/org.testng/testng -->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>7.12.0</version>
-			<scope>compile</scope>
-		</dependency>
-		
-	
-	</dependencies>
-
-</project>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Railway Test Suite" parallel="false">
+    
+    <!-- Chrome Tests -->
+    <test name="Chrome Tests" preserve-order="true">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="src.LoginTest">
+                <methods>
+                    <include name="TC01"/>
+                    <include name="TC02"/>
+                    <include name="TC03"/>
+                    <include name="TC04"/>
+                    <include name="TC05"/>
+                </methods>
+            </class>
+            <class name="src.LogoutTest">
+                <methods>
+                    <include name="TC06"/>
+                </methods>
+            </class>
+            <class name="src.CreateAccountTest">
+                <methods>
+                    <include name="TC07"/>
+                    <include name="TC08"/>
+                    <include name="TC09"/>
+                </methods>
+            </class>
+            <class name="src.ResetPasswordTest">
+                <methods>
+                    <include name="TC10"/>
+                    <include name="TC11"/>
+                </methods>
+            </class>
+            <class name="src.BookTicketTest"/>
+        </classes>
+    </test>
+    
+    <!-- Firefox Tests (Optional - uncomment to run) -->
+    <!--
+    <test name="Firefox Tests" preserve-order="true">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="src.LoginTest"/>
+            <class name="src.LogoutTest"/>
+            <class name="src.CreateAccountTest"/>
+            <class name="src.ResetPasswordTest"/>
+            <class name="src.BookTicketTest"/>
+        </classes>
+    </test>
+    -->
+    
+</suite>

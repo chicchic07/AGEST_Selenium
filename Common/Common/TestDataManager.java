@@ -1,9 +1,5 @@
 package Common;
 
-/**
- * Class to manage and share test data between test cases
- * This helps TC10 access the email created in TC09
- */
 public class TestDataManager {
     private static String tc09CreatedEmail = null;
     private static String tc09Password = null;

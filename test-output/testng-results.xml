@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="6" total="8" passed="1" failed="1" skipped="0">
+<testng-results ignored="4" total="5" passed="0" failed="0" skipped="1">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-02-11T15:57:20 ICT" name="Default suite" finished-at="2026-02-11T15:57:58 ICT" duration-ms="38050">
+  <suite started-at="2026-02-23T14:15:11 GMT+07:00" name="Default suite" finished-at="2026-02-23T14:16:01 GMT+07:00" duration-ms="50684">
     <groups>
     </groups>
-    <test started-at="2026-02-11T15:57:20 ICT" name="Default test" finished-at="2026-02-11T15:57:58 ICT" duration-ms="38050">
-      <class name="src.CreateAccountTest">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:src.CreateAccountTest@557caf28]" started-at="2026-02-11T15:57:20 ICT" name="setUp" finished-at="2026-02-11T15:57:22 ICT" duration-ms="1667" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setUp -->
-        <test-method signature="TC09()[pri:1, instance:src.CreateAccountTest@557caf28]" started-at="2026-02-11T15:57:22 ICT" name="TC09" finished-at="2026-02-11T15:57:45 ICT" duration-ms="23287" status="FAIL">
+    <test started-at="2026-02-23T14:15:11 GMT+07:00" name="Default test" finished-at="2026-02-23T14:16:01 GMT+07:00" duration-ms="50684">
+      <class name="src.BookTicketTest">
+        <test-method is-config="true" signature="setUp(java.lang.String)[pri:0, instance:src.BookTicketTest@67d48005]" started-at="2026-02-23T14:15:11 GMT+07:00" name="setUp" finished-at="2026-02-23T14:16:01 GMT+07:00" duration-ms="50623" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[chrome]]>
+              </value>
+            </param>
+          </params>
           <exception class="org.openqa.selenium.TimeoutException">
             <message>
               <![CDATA[Expected condition failed: waiting for visibility of element found by By.xpath: //h1[contains(text(), 'Thank you')], but... org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//h1[contains(text(), 'Thank you')]"}.
 (tried for 10 seconds with 500 milliseconds interval)
 Build info: version: '4.40.0', revision: 'b3333f1'
-System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.16'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.1'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.110, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\Chicchic\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55353}, goog:processID: 41824, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:55353/devtoo..., se:cdpVersion: 144.0.7559.110, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 58b847b5fc177dab0235ac96d56bd86f]]>
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\Chicchic\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53844}, goog:processID: 21136, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53844/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 4492057222fa2764df94c78a1b2bd3b6]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of element found by By.xpath: //h1[contains(text(), 'Thank you')], but... org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//h1[contains(text(), 'Thank you')]"}.
 (tried for 10 seconds with 500 milliseconds interval)
 Build info: version: '4.40.0', revision: 'b3333f1'
-System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.16'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.1'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.110, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\Chicchic\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55353}, goog:processID: 41824, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:55353/devtoo..., se:cdpVersion: 144.0.7559.110, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 58b847b5fc177dab0235ac96d56bd86f
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\Chicchic\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53844}, goog:processID: 21136, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53844/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 4492057222fa2764df94c78a1b2bd3b6
 at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
 at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
-at Railway.GeneralPage.getElement(GeneralPage.java:96)
+at Railway.GeneralPage.getElement(GeneralPage.java:131)
 at Railway.RegisterPage.getSuccessMessage(RegisterPage.java:74)
-at src.CreateAccountTest.TC09(CreateAccountTest.java:136)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+at src.BaseTest.registerAndActivateNewAccount(BaseTest.java:87)
+at src.BaseTest.setUp(BaseTest.java:44)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+at java.base/java.lang.reflect.Method.invoke(Method.java:565)
 at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
-at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:687)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:71)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:400)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:333)
+at org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:836)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:601)
 at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
 at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
 at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:995)
 at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
 at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
 at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
-at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 at org.testng.TestRunner.privateRun(TestRunner.java:741)
 at org.testng.TestRunner.run(TestRunner.java:616)
 at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
@@ -68,22 +74,69 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           </exception> <!-- org.openqa.selenium.TimeoutException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- TC09 -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:src.CreateAccountTest@557caf28]" started-at="2026-02-11T15:57:45 ICT" name="tearDown" finished-at="2026-02-11T15:57:46 ICT" duration-ms="553" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- tearDown -->
-      </class> <!-- src.CreateAccountTest -->
-      <class name="src.BookTicketTest">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:src.BookTicketTest@3cd3e762]" started-at="2026-02-11T15:57:46 ICT" name="setUp" finished-at="2026-02-11T15:57:47 ICT" duration-ms="1281" status="PASS">
-          <reporter-output>
-          </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="TC16()[pri:0, instance:src.BookTicketTest@3cd3e762]" started-at="2026-02-11T15:57:47 ICT" name="TC16" finished-at="2026-02-11T15:57:58 ICT" depends-on-methods="src.CreateAccountTest.TC09" duration-ms="11034" status="PASS">
+        <test-method signature="TC12()[pri:0, instance:src.BookTicketTest@67d48005]" started-at="2026-02-23T14:16:01 GMT+07:00" name="TC12" finished-at="2026-02-23T14:16:01 GMT+07:00" duration-ms="1" status="SKIP">
+          <exception class="org.openqa.selenium.TimeoutException">
+            <message>
+              <![CDATA[Expected condition failed: waiting for visibility of element found by By.xpath: //h1[contains(text(), 'Thank you')], but... org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//h1[contains(text(), 'Thank you')]"}.
+(tried for 10 seconds with 500 milliseconds interval)
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.1'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\Chicchic\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53844}, goog:processID: 21136, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53844/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 4492057222fa2764df94c78a1b2bd3b6]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of element found by By.xpath: //h1[contains(text(), 'Thank you')], but... org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//h1[contains(text(), 'Thank you')]"}.
+(tried for 10 seconds with 500 milliseconds interval)
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.1'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\Chicchic\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53844}, goog:processID: 21136, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53844/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 4492057222fa2764df94c78a1b2bd3b6
+at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
+at Railway.GeneralPage.getElement(GeneralPage.java:131)
+at Railway.RegisterPage.getSuccessMessage(RegisterPage.java:74)
+at src.BaseTest.registerAndActivateNewAccount(BaseTest.java:87)
+at src.BaseTest.setUp(BaseTest.java:44)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:71)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:400)
+at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:333)
+at org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:836)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:601)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:995)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+at org.testng.TestRunner.privateRun(TestRunner.java:741)
+at org.testng.TestRunner.run(TestRunner.java:616)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
+at org.testng.SuiteRunner.run(SuiteRunner.java:312)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
+at org.testng.TestNG.runSuites(TestNG.java:1112)
+at org.testng.TestNG.run(TestNG.java:1079)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.openqa.selenium.TimeoutException -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- TC16 -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:src.BookTicketTest@3cd3e762]" started-at="2026-02-11T15:57:58 ICT" name="tearDown" finished-at="2026-02-11T15:57:58 ICT" duration-ms="167" status="PASS">
+        </test-method> <!-- TC12 -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:src.BookTicketTest@67d48005]" started-at="2026-02-23T14:16:01 GMT+07:00" name="tearDown" finished-at="2026-02-23T14:16:01 GMT+07:00" duration-ms="0" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

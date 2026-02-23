@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 public class RegisterPage extends GeneralPage {
     
-    // Locators
+    // ========== LOCATORS - Consistent naming ==========
     private static final By TXT_EMAIL = By.xpath("//input[@id='email']");
     private static final By TXT_PASSWORD = By.xpath("//input[@id='password']");
     private static final By TXT_CONFIRM_PASSWORD = By.xpath("//input[@id='confirmPassword']");

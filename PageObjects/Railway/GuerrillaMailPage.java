@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -13,29 +14,40 @@ import java.util.List;
 
 public class GuerrillaMailPage extends GeneralPage {
     private String currentEmail = null;
+    // Lưu handle của tab GuerrillaMail để switch về khi cần
+    private String guerrillaMailWindowHandle = null;
     
-    // LOCATORS 
-    private final By emailWidgetSpan = By.id("email-widget");
-    private final By emailStrField = By.id("email-str");
-    private final By emailIframe = By.id("emailFrame");
-    private final By mailBodyDiv = By.id("email_body");
-    private final By scrambleCheckbox = By.id("use-alias");
-    private final By emailFromSender = By.xpath("//td[contains(text(), '%s')]");
-    private final By activationLinkSafeRailway = By.xpath("//a[contains(@href, 'saferailway')]");
-    private final By resetPasswordLink = By.xpath("//a[contains(@href, 'ResetPassword') or contains(text(), 'reset') or contains(text(), 'Reset')]");
+    // ========== LOCATORS - Consistent naming ==========
+    private static final By SPAN_EMAIL_WIDGET = By.id("email-widget");
+    private static final By TXT_EMAIL_STR = By.id("email-str");
+    private static final By IFRAME_EMAIL = By.id("emailFrame");
+    private static final By DIV_EMAIL_BODY = By.id("email_body");
+    private static final By CHK_SCRAMBLE = By.id("use-alias");
+    private static final String TD_EMAIL_FROM_SENDER = "//td[contains(text(), '%s')]";
+    // Tìm email theo subject để phân biệt activation email vs reset password email
+    private static final String TD_EMAIL_BY_SUBJECT = "//td[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '%s')]";
+    private static final By LINK_ACTIVATION_SAFERAILWAY = By.xpath("//a[contains(@href, 'saferailway')]");
+    private static final By LINK_RESET_PASSWORD = By.xpath("//a[contains(@href, 'ResetPassword') or contains(text(), 'reset') or contains(text(), 'Reset')]");
     
-    // ========== CONSTRUCTOR ==========
     public GuerrillaMailPage(WebDriver driver) {
         super(driver);
     }
     
     // ========== PUBLIC METHODS - MAIN ACTIONS ==========
+    
     public GuerrillaMailPage open() {
         System.out.println("Opening GuerrillaMail...");
         driver.navigate().to(Constant.GUERRILLA_MAIL_URL);
-        
+
+        // Lưu lại handle của tab GuerrillaMail ngay khi mở
+        guerrillaMailWindowHandle = driver.getWindowHandle();
+
         waitForPageLoad(); 
-        waitForCondition( d -> getEmailViaJS() != null && getEmailViaJS().contains("@"), 10, "Email generated" );
+        waitForCondition(
+            d -> getEmailViaJS() != null && getEmailViaJS().contains("@"), 
+            10, 
+            "Email generated"
+        );
         
         System.out.println("GuerrillaMail loaded successfully");
         return this;
@@ -43,7 +55,7 @@ public class GuerrillaMailPage extends GeneralPage {
     
     public GuerrillaMailPage uncheckScrambleAddress() {
         String oldEmail = getEmailViaJS();
-        WebElement checkbox = wait.until(ExpectedConditions.presenceOfElementLocated(scrambleCheckbox));
+        WebElement checkbox = wait.until(ExpectedConditions.presenceOfElementLocated(CHK_SCRAMBLE));
         
         if (!checkbox.isSelected()) {
             System.out.println("Scramble already unchecked");
@@ -53,12 +65,14 @@ public class GuerrillaMailPage extends GeneralPage {
         checkbox.click();
         System.out.println("Scramble Address unchecked");
         
-        // Đợi email mới
+        // Wait for email to change
         waitForCondition(
             d -> {
                 String newEmail = getEmailViaJS();
                 return newEmail != null && !newEmail.equals(oldEmail);
-            }, 5, "Email changed after uncheck scramble"
+            }, 
+            5, 
+            "Email changed after uncheck scramble"
         );
         
         currentEmail = getEmailViaJS();
@@ -81,12 +95,11 @@ public class GuerrillaMailPage extends GeneralPage {
         return currentEmail;
     }
     
-    //Đóng quảng cáo (nếu có)
     public GuerrillaMailPage closeAdvertisements() {
         System.out.println("Closing advertisements...");
         
         try {
-            waitForCondition( d -> countAdsOnPage() > 0, 2, "Ads displayed" );
+            waitForCondition(d -> countAdsOnPage() > 0, 2, "Ads displayed");
             
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript(
@@ -113,8 +126,10 @@ public class GuerrillaMailPage extends GeneralPage {
             if (waitForEmailFromSender("thanhletraining", 3)) {
                 System.out.println("  Found email from thanhletraining");
                 
-                // Click email để mở
-                driver.findElement(By.xpath(String.format(emailFromSender.toString().replace("By.xpath: ", ""), "thanhletraining"))).click();
+                // Click email to open
+                driver.findElement(
+                    By.xpath(String.format(TD_EMAIL_FROM_SENDER, "thanhletraining"))
+                ).click();
                 
                 waitForEmailContentLoad();
                 return clickActivationLink();
@@ -129,25 +144,36 @@ public class GuerrillaMailPage extends GeneralPage {
     
     public boolean waitForResetPasswordEmailAndClick(int timeoutSeconds) {
         System.out.println("Waiting for reset password email (timeout: " + timeoutSeconds + "s)...");
-        
+
+        // Đảm bảo driver đang ở tab GuerrillaMail trước khi tìm email
+        driver.switchTo().window(guerrillaMailWindowHandle);
+        System.out.println("  Switched to GuerrillaMail tab");
+
         long endTime = System.currentTimeMillis() + (timeoutSeconds * 1000);
-        
+
         while (System.currentTimeMillis() < endTime) {
             refreshInbox();
-            
-            if (waitForEmailFromSender("thanhletraining", 3)) {
-                System.out.println("  Found email from thanhletraining");
-                
-                // Click email to open
-                driver.findElement(By.xpath(String.format(emailFromSender.toString().replace("By.xpath: ", ""), "thanhletraining"))).click();
-                
+
+            // Tìm email theo subject "reset" để không nhầm với email activation
+            String resetSubjectXpath = String.format(TD_EMAIL_BY_SUBJECT, "reset");
+            List<WebElement> resetEmails = driver.findElements(By.xpath(resetSubjectXpath));
+
+            if (!resetEmails.isEmpty()) {
+                System.out.println("  Found reset password email by subject");
+                try {
+                    resetEmails.get(0).click();
+                } catch (Exception e) {
+                    // Fallback: JS click nếu bị stale/not interactable
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", resetEmails.get(0));
+                }
+
                 waitForEmailContentLoad();
                 return clickResetPasswordLink();
             }
-            
+
             System.out.println("Waiting... (" + getRemainingSeconds(endTime) + "s left)");
         }
-        
+
         System.out.println("  Timeout: No reset password email received");
         return false;
     }
@@ -156,14 +182,13 @@ public class GuerrillaMailPage extends GeneralPage {
         return driver.getWindowHandle();
     }
     
-    
-    
     // ========== PRIVATE HELPER METHODS ==========
+    
     private void waitForPageLoad() {
         wait.until(ExpectedConditions.urlContains("guerrillamail.com"));
         wait.until(ExpectedConditions.or(
-            ExpectedConditions.presenceOfElementLocated(emailWidgetSpan),
-            ExpectedConditions.presenceOfElementLocated(emailStrField)
+            ExpectedConditions.presenceOfElementLocated(SPAN_EMAIL_WIDGET),
+            ExpectedConditions.presenceOfElementLocated(TXT_EMAIL_STR)
         ));
     }
     
@@ -231,8 +256,8 @@ public class GuerrillaMailPage extends GeneralPage {
         try {
             WebDriverWait contentWait = new WebDriverWait(driver, Duration.ofSeconds(5));
             contentWait.until(ExpectedConditions.or(
-                ExpectedConditions.frameToBeAvailableAndSwitchToIt(emailIframe),
-                ExpectedConditions.presenceOfElementLocated(mailBodyDiv)
+                ExpectedConditions.frameToBeAvailableAndSwitchToIt(IFRAME_EMAIL),
+                ExpectedConditions.presenceOfElementLocated(DIV_EMAIL_BODY)
             ));
             driver.switchTo().defaultContent();
         } catch (Exception e) {
@@ -242,27 +267,32 @@ public class GuerrillaMailPage extends GeneralPage {
     
     private boolean clickActivationLink() {
         System.out.println("Looking for activation link...");
-        
+
         try {
-            // Chờ link xuất hiện
-            wait.until(ExpectedConditions.presenceOfElementLocated(activationLinkSafeRailway));
-            
-            // Lấy URL và navigate
-            String activationUrl = driver.findElement(activationLinkSafeRailway)
+            // Wait for link to appear
+            wait.until(ExpectedConditions.presenceOfElementLocated(LINK_ACTIVATION_SAFERAILWAY));
+
+            // Get URL from link (không click trực tiếp để tránh mở trên tab GuerrillaMail)
+            String activationUrl = driver.findElement(LINK_ACTIVATION_SAFERAILWAY)
                                          .getAttribute("href");
-            
-            System.out.println("  Found link: " + activationUrl);
+
+            System.out.println("  Found activation link: " + activationUrl);
+
+            // Mở tab mới và navigate đến activation URL
+            driver.switchTo().newWindow(WindowType.TAB);
+            System.out.println("  Opened new tab for activation");
+
             driver.navigate().to(activationUrl);
-            
-            // Chờ trang activation load
+
+            // Wait for activation page to load
             wait.until(ExpectedConditions.or(
                 ExpectedConditions.urlContains("Registration"),
                 ExpectedConditions.urlContains("Confirm")
             ));
-            
-            System.out.println("  Activation page loaded");
+
+            System.out.println("  Activation page loaded in new tab");
             return true;
-            
+
         } catch (Exception e) {
             System.err.println("  Cannot find activation link: " + e.getMessage());
             return false;
@@ -271,27 +301,32 @@ public class GuerrillaMailPage extends GeneralPage {
     
     private boolean clickResetPasswordLink() {
         System.out.println("Looking for reset password link...");
-        
+
         try {
             // Wait for link to appear
-            wait.until(ExpectedConditions.presenceOfElementLocated(resetPasswordLink));
-            
-            // Get URL and navigate
-            String resetUrl = driver.findElement(resetPasswordLink)
+            wait.until(ExpectedConditions.presenceOfElementLocated(LINK_RESET_PASSWORD));
+
+            // Lấy URL từ link, không click trực tiếp để tránh mở trên tab GuerrillaMail
+            String resetUrl = driver.findElement(LINK_RESET_PASSWORD)
                                     .getAttribute("href");
-            
-            System.out.println("  Found link: " + resetUrl);
+
+            System.out.println("  Found reset password link: " + resetUrl);
+
+            // Mở tab mới và navigate đến reset password URL
+            driver.switchTo().newWindow(WindowType.TAB);
+            System.out.println("  Opened new tab for reset password form");
+
             driver.navigate().to(resetUrl);
-            
+
             // Wait for reset password page to load
             wait.until(ExpectedConditions.or(
                 ExpectedConditions.urlContains("ResetPassword"),
                 ExpectedConditions.urlContains("Reset")
             ));
-            
-            System.out.println("  Reset password page loaded");
+
+            System.out.println("  Reset password page loaded in new tab");
             return true;
-            
+
         } catch (Exception e) {
             System.err.println("  Cannot find reset password link: " + e.getMessage());
             return false;

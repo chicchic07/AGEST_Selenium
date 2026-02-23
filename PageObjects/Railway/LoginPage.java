@@ -8,11 +8,11 @@ import Constant.Constant;
 
 public class LoginPage extends GeneralPage {
     
-    // Locators
+    // ========== LOCATORS - Consistent naming ==========
     private static final By TXT_USERNAME = By.xpath("//input[@id='username']");
     private static final By TXT_PASSWORD = By.xpath("//input[@id='password']");
     private static final By BTN_LOGIN = By.xpath("//input[@value='login']");
-    private static final By LINK_FORGOT = By.xpath("//a[contains(@href, 'Forgot')]");
+    private static final By LINK_FORGOT_PASSWORD = By.xpath("//a[contains(@href, 'Forgot')]");
     
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -55,7 +55,7 @@ public class LoginPage extends GeneralPage {
     // ========== NAVIGATION ==========
     
     public ForgotPage clickForgotPasswordLink() {
-        getClickableElement(LINK_FORGOT).click();
+        getClickableElement(LINK_FORGOT_PASSWORD).click();
         return new ForgotPage(driver);
     }
 }
